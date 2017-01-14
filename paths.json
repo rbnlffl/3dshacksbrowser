@@ -1,0 +1,20 @@
+{
+    "src": "src/",
+    "srcJs": "src/js/*.js",
+    "srcScss": "src/scss/*.scss",
+    "srcImg": "src/img/*",
+    "srcHtml": "src/*.html",
+    "srcRoot": [
+        "src/sitemap.xml",
+        "src/robots.txt",
+        "src/.htaccess"
+    ],
+    "dist": "dist/",
+    "distJs": "dist/js/",
+    "distCss": "dist/css/",
+    "distImg": "dist/img/",
+    "vendorJs": [
+        "node_modules/vue/dist/vue.js",
+        "node_modules/vue-resource/dist/vue-resource.js"
+    ]
+}

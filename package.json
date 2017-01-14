@@ -1,0 +1,60 @@
+{
+    "name": "3dshacksbrowser",
+    "version": "0.0.1",
+    "title": "3D Shacks Browser",
+    "description": "The simplest way to all your favourite and latest 3D shacks",
+    "author": "Robin Löffel <hi@robinloeffel.ch>",
+    "license": "ISC",
+    "homepage": "https://robinloeffel.ch",
+    "private": true,
+    "engines": {
+        "node": ">=4.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rbnlffl/3dshacksbrowser.git"
+    },
+    "keywords": [
+        "nintendo",
+        "3ds",
+        "hacks",
+        "hax",
+        "shacks"
+    ],
+    "bugs": {
+        "url": "https://github.com/rbnlffl/3dshacksbrowser/issues"
+    },
+    "scripts": {
+        "start": "NODE_ENV=dev gulp",
+        "dist": "gulp clean && gulp build"
+    },
+    "dependencies": {
+        "vue": "^2.1.8",
+        "vue-resource": "^1.0.3"
+    },
+    "devDependencies": {
+        "babel-preset-es2015": "^6.18.0",
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^3.1.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-changed": "^1.3.2",
+        "gulp-clean-css": "^2.3.2",
+        "gulp-concat": "^2.6.1",
+        "gulp-connect": "^5.0.0",
+        "gulp-if": "^2.0.2",
+        "gulp-imagemin": "^3.1.1",
+        "gulp-jshint": "^2.0.4",
+        "gulp-plumber": "^1.1.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^3.1.0",
+        "gulp-sourcemaps": "^2.4.0",
+        "gulp-uglify": "^2.0.0",
+        "gulp-util": "^3.0.8",
+        "ip": "^1.1.4",
+        "jshint": "^2.9.4",
+        "jshint-stylish": "^2.2.1",
+        "open": "^0.0.5",
+        "run-sequence": "^1.2.2"
+    }
+}
