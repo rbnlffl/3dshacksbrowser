@@ -3,44 +3,41 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>3d shacks repo</title>
+        <title>3dshacksbrowser</title>
         <style>
             [v-cloak] {
                 display: none !important;
             }
         </style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
         <link rel="stylesheet" href="./css/main.css" />
     </head>
     <body>
         <main id="app">
-            <h1>browse 3d shacks</h1>
+            <h1>Browse 3DS Hacks</h1>
+
+            <input type="text" name="user" @blur="checkUser" v-model="user" :class="{'good': userExists === 1, 'bad': userExists === -1}">
+            <input type="text" name="repo" @blur="checkRepo" v-model="repo" :class="{'good': repoExists === 1, 'bad': repoExists === -1}">
+            <input type="button" name="get" value="Add" @click="checkRelease">
 
             <table>
                 <thead>
                     <tr>
-                        <th>user</th>
-                        <th>repo</th>
-                        <th>latest v</th>
-                        <th>date</th>
-                        <th>dl</th>
+                        <th @click="sortBy('repo')">Repository</th>
+                        <th @click="sortBy('user')">User</th>
+                        <th data-date-format="dd.mm.yyyy" @click="sortBy('date')">Published</th>
+                        <th>Version</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="shack in shacks" v-cloak>
-                        <td><a :href="shack.userProfile" v-text="shack.user"></a></td>
-                        <td><a :href="shack.repo" v-text="shack.name"></a></td>
-                        <td v-text="shack.version"></td>
-                        <td v-text="shack.date"></td>
+                        <td><a :href="shack.repoPage" v-text="shack.repo"></a></td>
+                        <td><a :href="shack.userPage" v-text="shack.user"></a></td>
+                        <td>{{ shack.date | date }}</td>
                         <td><a :href="shack.download" v-text="shack.version"></a></td>
                     </tr>
                 </tbody>
             </table>
-
-            <input type="text" name="user" @blur="checkUser" v-model="user" :class="{'good': userExists === 1}">
-            <small v-if="userExists === -1" v-cloak>usr not found</small>
-            <input type="text" name="repo" @blur="checkRepo" v-model="repo" :class="{'good': repoExists === 1}">
-            <small v-if="repoExists === -1" v-cloak>repo not found</small>
-            <input type="button" name="get" value="search" @click="checkRelease">
         </main>
 
         <script src="./js/vendor.js" charset="utf-8"></script>
