@@ -49,12 +49,12 @@ Vue.create({
             if (this.userExists === 1 && this.repoExists === 1) {
                 this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}/releases/latest`).then((res) => {
                     let dlType = res.data.assets[0].browser_download_url.split('.'),
-                        qrCode = 'Yes';
+                        qrCode = 'No';
 
                     dlType = dlType[dlType.length - 1];
 
                     if (dlType.toLowerCase() === 'cia') {
-                        qrCode = 'No';
+                        qrCode = 'Yes';
                     }
 
                     this.shacks = this.shacks.concat({
