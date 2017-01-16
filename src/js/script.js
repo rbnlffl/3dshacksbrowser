@@ -1,6 +1,7 @@
 'use strict';
 
 Vue.config.devtools = false;
+Vue.prototype.$http = axios;
 Vue.create = function(options) {
     return new Vue(options);
 };
@@ -20,9 +21,9 @@ Vue.create({
     methods: {
         checkUser: function() {
             if (this.user) {
-                this.$http.get(`https://api.github.com/users/${this.user}`).then(function(res) {
+                this.$http.get(`https://api.github.com/users/${this.user}`).then((res) => {
                     this.userExists = 1;
-                }, function(err) {
+                }).catch((error) => {
                     this.userExists = -1;
                 });
             } else {
@@ -32,11 +33,11 @@ Vue.create({
 
         checkRepo: function() {
             if (this.repo) {
-                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}`).then(function(res) {
+                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}`).then((res) => {
                     this.repoExists = 1;
                     this.user = res.data.owner.login;
                     this.repo = res.data.name;
-                }, function(err) {
+                }).catch((err) => {
                     this.repoExists = -1;
                 });
             } else {
@@ -46,7 +47,7 @@ Vue.create({
 
         checkRelease: function() {
             if (this.userExists === 1 && this.repoExists === 1) {
-                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}/releases/latest`).then(function(res) {
+                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}/releases/latest`).then((res) => {
                     this.shacks = this.shacks.concat({
                         user: res.data.author.login,
                         userPage: res.data.author.html_url,
@@ -61,7 +62,7 @@ Vue.create({
                     this.userExists = 0;
                     this.repo = '';
                     this.repoExists = 0;
-                }, function(err) {
+                }).catch((err) => {
                     console.log(err.statusText);
                 });
             }

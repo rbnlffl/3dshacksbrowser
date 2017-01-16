@@ -15,6 +15,6 @@
     "distImg": "dist/img/",
     "vendorJs": [
         "node_modules/vue/dist/vue.js",
-        "node_modules/vue-resource/dist/vue-resource.js"
+        "node_modules/axios/dist/axios.js"
     ]
 }
