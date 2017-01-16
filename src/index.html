@@ -27,6 +27,7 @@
                         <th @click="sortBy('user')">User</th>
                         <th data-date-format="dd.mm.yyyy" @click="sortBy('date')">Published</th>
                         <th>Version</th>
+                        <th>QR Code</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +35,8 @@
                         <td><a :href="shack.repoPage" v-text="shack.repo"></a></td>
                         <td><a :href="shack.userPage" v-text="shack.user"></a></td>
                         <td>{{ shack.date | date }}</td>
-                        <td><a :href="shack.download" v-text="shack.version"></a></td>
+                        <td><a :href="shack.downloadUrl" v-text="shack.download"></a></td>
+                        <td>{{ shack.qr }}</td>
                     </tr>
                 </tbody>
             </table>

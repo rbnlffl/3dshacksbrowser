@@ -48,14 +48,24 @@ Vue.create({
         checkRelease: function() {
             if (this.userExists === 1 && this.repoExists === 1) {
                 this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}/releases/latest`).then((res) => {
+                    let dlType = res.data.assets[0].browser_download_url.split('.'),
+                        qrCode = 'Yes';
+
+                    dlType = dlType[dlType.length - 1];
+
+                    if (dlType.toLowerCase() === 'cia') {
+                        qrCode = 'No';
+                    }
+
                     this.shacks = this.shacks.concat({
                         user: res.data.author.login,
                         userPage: res.data.author.html_url,
                         repo: this.repo,
                         repoPage: `https://github.com/${this.user}/${this.repo}`,
-                        version: res.data.tag_name,
                         date: res.data.published_at,
-                        download: res.data.assets[0].browser_download_url
+                        download: `${res.data.tag_name} (.${dlType})`,
+                        downloadUrl: res.data.assets[0].browser_download_url,
+                        qr: qrCode
                     });
 
                     this.user = '';
