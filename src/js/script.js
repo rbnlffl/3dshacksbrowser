@@ -63,7 +63,7 @@ Vue.create({
                         repo: this.repo,
                         repoPage: `https://github.com/${this.user}/${this.repo}`,
                         date: res.data.published_at,
-                        download: `${res.data.tag_name} (.${dlType})`,
+                        download: `${res.data.tag_name.replace(/^v?/, '')} (.${dlType})`,
                         downloadUrl: res.data.assets[0].browser_download_url,
                         qr: qrCode
                     });
@@ -114,13 +114,13 @@ Vue.create({
             if (property === 'date') {
                 if (this.sortDateDesc) {
                     this.shacks.sort((a, b) => {
-                        return a.repo.localeCompare(b.repo);
+                        return a.date.localeCompare(b.date);
                     });
 
                     this.sortDateDesc = false;
                 } else {
                     this.shacks.sort((a, b) => {
-                        return b.repo.localeCompare(a.repo);
+                        return b.date.localeCompare(a.date);
                     });
 
                     this.sortDateDesc = true;
