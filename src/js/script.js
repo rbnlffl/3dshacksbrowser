@@ -1,7 +1,6 @@
 'use strict';
 
 Vue.config.devtools = false;
-Vue.prototype.$http = axios;
 Vue.create = function(options) {
     return new Vue(options);
 };
@@ -9,126 +8,132 @@ Vue.create = function(options) {
 Vue.create({
     el: '#app',
     data: {
-        user: '',
-        userExists: 0,
-        repo: '',
-        repoExists: 0,
-        shacks: [],
-        sortUserDesc: undefined,
-        sortRepoDesc: undefined,
-        sortDateDesc: undefined
+        newUser: {
+            name: '',
+            exists: undefined
+        },
+        newRepo: {
+            name: '',
+            exists: undefined
+        },
+        sorter: {
+            property: '',
+            desc: undefined
+        },
+        shacks: []
     },
     methods: {
         checkUser: function() {
-            if (this.user) {
-                this.$http.get(`https://api.github.com/users/${this.user}`).then((res) => {
-                    this.userExists = 1;
+            if (this.newUser.name) {
+                axios.get(`https://api.github.com/users/${this.newUser.name}`).then((response) => {
+                    this.newUser.exists = true;
                 }).catch((error) => {
-                    this.userExists = -1;
+                    console.log(error.statusText || error.stack);
+                    this.newUser.exists = false;
                 });
             } else {
-                this.userExists = 0;
+                this.newUser.exists = undefined;
             }
         },
 
         checkRepo: function() {
-            if (this.repo) {
-                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}`).then((res) => {
-                    this.repoExists = 1;
-                    this.user = res.data.owner.login;
-                    this.repo = res.data.name;
-                }).catch((err) => {
-                    this.repoExists = -1;
+            if (this.newUser.exists && this.newRepo.name) {
+                axios.get(`https://api.github.com/repos/${this.newUser.name}/${this.newRepo.name}`).then((response) => {
+                    this.newUser.name = response.data.owner.login;
+                    this.newRepo.name = response.data.name;
+                    this.newRepo.exists = true;
+                }).catch((error) => {
+                    console.log(error.statusText || error.stack);
+                    this.newRepo.exists = false;
                 });
             } else {
-                this.repoExists = 0;
+                this.newRepo.exists = undefined;
             }
         },
 
         checkRelease: function() {
-            if (this.userExists === 1 && this.repoExists === 1) {
-                this.$http.get(`https://api.github.com/repos/${this.user}/${this.repo}/releases/latest`).then((res) => {
-                    let dlType = res.data.assets[0].browser_download_url.split('.'),
-                        qrCode = 'No';
-
-                    dlType = dlType[dlType.length - 1];
-
-                    if (dlType.toLowerCase() === 'cia') {
-                        qrCode = 'Yes';
-                    }
+            if (this.newUser.exists && this.newRepo.exists) {
+                axios.get(`https://api.github.com/repos/${this.newUser.name}/${this.newRepo.name}/releases/latest`).then((response) => {
+                    let dlType = response.data.assets[0].browser_download_url.match(/\.[a-z|0-9]+$/)[0].toLowerCase();
 
                     this.shacks = this.shacks.concat({
-                        user: res.data.author.login,
-                        userPage: res.data.author.html_url,
-                        repo: this.repo,
-                        repoPage: `https://github.com/${this.user}/${this.repo}`,
-                        date: res.data.published_at,
-                        download: `${res.data.tag_name.replace(/^v?/, '')} (.${dlType})`,
-                        downloadUrl: res.data.assets[0].browser_download_url,
-                        qr: qrCode
+                        user: response.data.author.login,
+                        userPage: response.data.author.html_url,
+                        repo: this.newRepo.name,
+                        repoPage: `https://github.com/${this.newUser.name}/${this.newRepo.name}`,
+                        date: response.data.published_at,
+                        download: `${response.data.tag_name.replace(/^v?/, '')} (${dlType})`,
+                        downloadUrl: response.data.assets[0].browser_download_url,
+                        qr: dlType === '.cia' ? true : false
                     });
 
-                    this.user = '';
-                    this.userExists = 0;
-                    this.repo = '';
-                    this.repoExists = 0;
-                }).catch((err) => {
-                    console.log(err.statusText);
+                    this.newUser = {
+                        name: '',
+                        exists: undefined
+                    };
+
+                    this.newRepo = {
+                        name: '',
+                        exists: undefined
+                    };
+                }).catch((error) => {
+                    console.log(error.statusText || error.stack);
                 });
             }
         },
 
         sortBy: function(property) {
             if (property === 'user') {
-                if (this.sortUserDesc) {
+                if (this.sorter.desc) {
                     this.shacks.sort((a, b) => {
                         return a.user.localeCompare(b.user);
                     });
 
-                    this.sortUserDesc = false;
+                    this.sorter.desc = false;
                 } else {
                     this.shacks.sort((a, b) => {
                         return b.user.localeCompare(a.user);
                     });
 
-                    this.sortUserDesc = true;
+                    this.sorter.desc = true;
                 }
             }
 
             if (property === 'repo') {
-                if (this.sortRepoDesc) {
+                if (this.sorter.desc) {
                     this.shacks.sort((a, b) => {
                         return a.repo.localeCompare(b.repo);
                     });
 
-                    this.sortRepoDesc = false;
+                    this.sorter.desc = false;
                 } else {
                     this.shacks.sort((a, b) => {
                         return b.repo.localeCompare(a.repo);
                     });
 
-                    this.sortRepoDesc = true;
+                    this.sorter.desc = true;
                 }
             }
 
             if (property === 'date') {
-                if (this.sortDateDesc) {
+                if (this.sorter.desc) {
                     this.shacks.sort((a, b) => {
                         return a.date.localeCompare(b.date);
                     });
 
-                    this.sortDateDesc = false;
+                    this.sorter.desc = false;
                 } else {
                     this.shacks.sort((a, b) => {
                         return b.date.localeCompare(a.date);
                     });
 
-                    this.sortDateDesc = true;
+                    this.sorter.desc = true;
                 }
             }
+
+            this.sorter.property = property;
         }
     },
-    mounted: function() {},
     filters: {
         date: function(value) {
             let date = new Date(value),

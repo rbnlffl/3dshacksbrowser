@@ -17,8 +17,8 @@
         <main id="app">
             <h1>Browse 3DS Hacks</h1>
 
-            <input type="text" name="user" @blur="checkUser" v-model="user" :class="{'good': userExists === 1, 'bad': userExists === -1}">
-            <input type="text" name="repo" @blur="checkRepo" v-model="repo" :class="{'good': repoExists === 1, 'bad': repoExists === -1}">
+            <input type="text" name="user" @blur="checkUser" v-model="newUser.name" :class="{'good': newUser.exists, 'bad': newUser.exists === false}">
+            <input type="text" name="repo" @blur="checkRepo" v-model="newRepo.name" :class="{'good': newRepo.exists, 'bad': newRepo.exists === false}">
             <input type="button" name="get" value="Add" @click="checkRelease">
 
             <table>

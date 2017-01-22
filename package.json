@@ -3,9 +3,9 @@
     "version": "0.0.1",
     "title": "3D Shacks Browser",
     "description": "The simplest way to all your favourite and latest 3D shacks",
-    "author": "Robin Löffel <hi@robinloeffel.ch>",
+    "author": "Robin Löffel <hi@robinloeffel.ch> (https://robinloeffel.ch)",
     "license": "ISC",
-    "homepage": "https://robinloeffel.ch",
+    "homepage": "https://robinloeffel.ch/3dshacksbrowser",
     "private": true,
     "engines": {
         "node": ">=4.0.0"
