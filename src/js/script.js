@@ -51,7 +51,7 @@ Vue.create({
             }
         },
 
-        checkRelease: function() {
+        getRelease: function() {
             if (this.newUser.exists && this.newRepo.exists) {
                 axios.get(`https://api.github.com/repos/${this.newUser.name}/${this.newRepo.name}/releases/latest`).then((response) => {
                     let dlType = response.data.assets[0].browser_download_url.match(/\.[a-z|0-9]+$/)[0].toLowerCase();

@@ -1,5 +1,9 @@
 $blue: #333345;
 
+* {
+    box-sizing: border-box;
+}
+
 html {
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
@@ -12,10 +16,21 @@ body {
 }
 
 main {
-    width: 80%;
+    width: 90%;
     max-width: 900px;
     min-width: 300px;
     margin: 50px auto;
+}
+
+footer {
+    border-top: 1px solid lighten($blue, 50%);
+    width: 75%;
+    max-width: 700px;
+    min-width: 250px;
+    margin: 50px auto;
+    padding: 25px;
+    font-size: .8rem;
+    text-align: right;
 }
 
 table {
@@ -33,7 +48,6 @@ table {
         color: lighten($blue, 10%);
         font-size: 1.1rem;
         position: relative;
-        cursor: pointer;
 
         &[data-date-format] {
             &::after {
@@ -55,6 +69,10 @@ table {
                 }
             }
         }
+
+        &[data-sort-rows] {
+            cursor: pointer;
+        }
     }
 
     thead {
@@ -66,10 +84,6 @@ table {
             background-color: lighten($blue, 72%);
         }
     }
-}
-
-* {
-    box-sizing: border-box;
 }
 
 input {

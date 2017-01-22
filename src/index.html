@@ -19,14 +19,14 @@
 
             <input type="text" name="user" @blur="checkUser" v-model="newUser.name" :class="{'good': newUser.exists, 'bad': newUser.exists === false}">
             <input type="text" name="repo" @blur="checkRepo" v-model="newRepo.name" :class="{'good': newRepo.exists, 'bad': newRepo.exists === false}">
-            <input type="button" name="get" value="Add" @click="checkRelease">
+            <input type="button" name="add" value="Add" @click="getRelease">
 
             <table>
                 <thead>
                     <tr>
-                        <th @click="sortBy('repo')">Repository</th>
-                        <th @click="sortBy('user')">User</th>
-                        <th data-date-format="dd.mm.yyyy" @click="sortBy('date')">Published</th>
+                        <th @click="sortBy('repo')" data-sort-rows>Repository</th>
+                        <th @click="sortBy('user')" data-sort-rows>User</th>
+                        <th @click="sortBy('date')" data-sort-rows data-date-format="dd.mm.yyyy">Published</th>
                         <th>Download</th>
                         <th>QR Code</th>
                     </tr>
@@ -42,6 +42,9 @@
                 </tbody>
             </table>
         </main>
+        <footer>
+            3dshacksbrowser, v0.0.1 (<a href="https://github.com/rbnlffl/3dshacksbrowser">GitHub</a>)
+        </footer>
 
         <script src="./js/vendor.js" charset="utf-8"></script>
         <script src="./js/script.js" charset="utf-8"></script>
